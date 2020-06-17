@@ -1,5 +1,3 @@
 package channelpopularity.operation;
 
-public enum Operation {
-
-}
+public enum Operation {}

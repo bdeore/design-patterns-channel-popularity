@@ -1,5 +1,3 @@
 package channelpopularity.util;
 
-public interface StdoutDisplayInterface {
-	
-}
+public interface StdoutDisplayInterface {}

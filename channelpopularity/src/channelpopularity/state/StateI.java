@@ -1,5 +1,3 @@
 package channelpopularity.state;
 
-public interface StateI {
-
-}
+public interface StateI {}

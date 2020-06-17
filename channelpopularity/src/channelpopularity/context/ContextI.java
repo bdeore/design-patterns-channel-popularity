@@ -1,5 +1,3 @@
 package channelpopularity.context;
 
-public interface ContextI {
-
-}
+public interface ContextI {}

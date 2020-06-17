@@ -1,5 +1,3 @@
 package channelpopularity.util;
 
-public class Results implements FileDisplayInterface, StdoutDisplayInterface {
-	
-}
+public class Results implements FileDisplayInterface, StdoutDisplayInterface {}

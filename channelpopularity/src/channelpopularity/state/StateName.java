@@ -1,5 +1,3 @@
 package channelpopularity.state;
 
-public enum StateName {
-
-}
+public enum StateName {}

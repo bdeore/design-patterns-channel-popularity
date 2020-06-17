@@ -1,5 +1,3 @@
 package channelpopularity.util;
 
-public interface FileDisplayInterface {
-	
-}
+public interface FileDisplayInterface {}

@@ -1,5 +1,3 @@
 package channelpopularity.state.factory;
 
-public class SimpleStateFactory implements SimpleStateFactoryI {
-
-}
+public class SimpleStateFactory implements SimpleStateFactoryI {}

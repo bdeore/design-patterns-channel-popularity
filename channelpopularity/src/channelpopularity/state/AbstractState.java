@@ -1,5 +1,3 @@
 package channelpopularity.state;
 
-public abstract class AbstractState implements StateI {
-
-}
+public abstract class AbstractState implements StateI {}
