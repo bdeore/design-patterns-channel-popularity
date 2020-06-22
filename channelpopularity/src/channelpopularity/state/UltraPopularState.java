@@ -1,6 +1,7 @@
 package channelpopularity.state;
 
 import channelpopularity.context.ContextI;
+import channelpopularity.helper.Video;
 
 public class UltraPopularState extends AbstractState {
 
@@ -11,10 +12,10 @@ public class UltraPopularState extends AbstractState {
   }
 
   @Override
-  public void addVideo(String videoName) {}
+  public void addVideo(Video newVideo) {}
 
   @Override
-  public void removeVideo(String videoName) {}
+  public void removeVideo(Video video) {}
 
   @Override
   public void addMetrics(String videoName) {}

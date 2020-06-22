@@ -1,9 +1,11 @@
 package channelpopularity.state;
 
-public interface StateI {
-  void addVideo(String videoName);
+import channelpopularity.helper.Video;
 
-  void removeVideo(String videoName);
+public interface StateI {
+  void addVideo(Video newVideo);
+
+  void removeVideo(Video video);
 
   void addMetrics(String videoName);
 
