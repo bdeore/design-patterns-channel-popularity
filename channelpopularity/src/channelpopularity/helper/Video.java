@@ -4,7 +4,7 @@ public class Video {
   private final String videoName;
   private int views;
   private int likes;
-  private int score;
+  private float score;
   private int dislikes;
 
   public Video(String videoName) {
@@ -28,9 +28,16 @@ public class Video {
   }
 
   public void updateMetrics(Video video) {
-    this.views += video.views;
-    this.likes += video.likes;
-    this.dislikes += video.dislikes;
+
+    if (this.views + video.views >= 0) this.views += video.views;
+    else System.out.println("InvalidValue Exception");
+
+    if (this.likes + video.likes >= 0) this.likes += video.likes;
+    else System.out.println("InvalidValue Exception");
+
+    if (this.dislikes + video.dislikes >= 0) this.dislikes += video.dislikes;
+    else System.out.println("InvalidValue Exception");
+
     calculateScore();
   }
 
@@ -38,15 +45,14 @@ public class Video {
     return videoName;
   }
 
-  public int getScore() {
+  public float getScore() {
     return score;
   }
 
-  public void setScore(int score) {
-    this.score = score;
-  }
-
   private void calculateScore() {
-    this.score = (views + 2 * (likes - dislikes));
+    float score = (views + 2 * (likes - dislikes));
+    if (score > 0) {
+      this.score = score;
+    } else this.score = 0;
   }
 }

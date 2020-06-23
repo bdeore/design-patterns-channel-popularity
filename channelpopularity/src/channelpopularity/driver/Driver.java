@@ -33,5 +33,8 @@ public class Driver {
     LineParser lp = new LineParser(fp, channel);
 
     lp.processFile();
+
+    channel.write();
+    channel.write(args[1]);
   }
 }

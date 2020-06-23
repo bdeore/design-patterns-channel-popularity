@@ -5,7 +5,8 @@ import channelpopularity.state.StateI;
 import channelpopularity.state.StateName;
 import channelpopularity.state.factory.SimpleStateFactory;
 import channelpopularity.state.factory.SimpleStateFactoryI;
-import java.util.ArrayList;
+import channelpopularity.util.Results;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,9 +14,10 @@ import java.util.Map;
 public class ChannelContext implements ContextI {
 
   private final Map<StateName, StateI> availableStates;
-  private final List<Video> videos;
+  private final Map<String, Video> videos;
+  private final Results results;
   private StateI currentState;
-  private int popularityScore;
+  private float popularityScore;
 
   public ChannelContext(List<StateName> stateNames) {
     SimpleStateFactoryI stateFactory = new SimpleStateFactory(this);
@@ -25,16 +27,15 @@ public class ChannelContext implements ContextI {
       availableStates.put(state, stateFactory.create(state));
     }
 
-    videos = new ArrayList<>();
+    videos = new HashMap<>();
+    results = new Results();
     this.currentState = availableStates.get(StateName.UNPOPULAR);
     this.popularityScore = 0;
   }
 
   @Override
   public void addVideo(Video newVideo) {
-    if (findVideo(newVideo) == -1) {
-      videos.add(newVideo);
-    }
+    currentState.addVideo(newVideo);
   }
 
   @Override
@@ -56,6 +57,10 @@ public class ChannelContext implements ContextI {
     return availableStates;
   }
 
+  public Results getResults() {
+    return results;
+  }
+
   public StateI getCurrentState() {
     return currentState;
   }
@@ -66,30 +71,25 @@ public class ChannelContext implements ContextI {
     }
   }
 
-  public void setCurrentState(StateI currentState) {
-    this.currentState = currentState;
-  }
-
-  public int getPopularityScore() {
+  public float getPopularityScore() {
     return popularityScore;
   }
 
-  public void setPopularityScore(int popularityScore) {
+  public void setPopularityScore(float popularityScore) {
     this.popularityScore = popularityScore;
   }
 
-  public List<Video> getVideos() {
+  public Map<String, Video> getVideos() {
     return videos;
   }
 
-  public int findVideo(Video video) {
-    int index = 0;
-    for (Video v : videos) {
-      if (v.getVideoName().equals(video.getVideoName())) {
-        return index;
-      }
-      index++;
-    }
-    return -1;
+  @Override
+  public void write() {
+    results.write();
+  }
+
+  @Override
+  public void write(String fileName) throws IOException {
+    results.write(fileName);
   }
 }

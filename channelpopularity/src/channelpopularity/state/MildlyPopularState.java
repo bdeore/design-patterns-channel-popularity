@@ -6,16 +6,19 @@ import channelpopularity.helper.Video;
 
 public class MildlyPopularState extends AbstractState {
 
+  private final StateName name = StateName.MILDLY_POPULAR;
+
   public MildlyPopularState(ContextI channelContext) {
     super((ChannelContext) channelContext);
   }
 
   @Override
   public void removeVideo(Video video) {
-    int index = findVideo(video);
-    if (index != -1) {
-      channel.getVideos().remove(index);
+    if (findVideo(video)) {
+      channel.getVideos().remove(video.getVideoName());
+      channel.getResults().store(name + "__VIDEO_REMOVED::" + video.getVideoName());
       channel.setPopularityScore(calculateScore());
+      channel.setCurrentState(findNextState(channel.getPopularityScore()));
     } else {
       System.out.println("Video doesn't exist");
     }
@@ -23,28 +26,26 @@ public class MildlyPopularState extends AbstractState {
 
   @Override
   public void addMetrics(Video videoMetrics) {
-    int index = findVideo(videoMetrics);
-    Video temp = channel.getVideos().get(index);
+    Video temp = channel.getVideos().get(videoMetrics.getVideoName());
     temp.updateMetrics(videoMetrics);
-
     channel.setPopularityScore(calculateScore());
-    findNextState(channel.getPopularityScore());
-
-    System.out.println("Score: " + temp.getScore());
-    System.out.println("Popularity Score: " + channel.getPopularityScore());
+    channel
+        .getResults()
+        .store(name + "__POPULARITY_SCORE_UPDATE::" + format.format(channel.getPopularityScore()));
+    channel.setCurrentState(findNextState(channel.getPopularityScore()));
   }
 
   @Override
   public void processAdRequest(int adLength) {
     if (adLength > 1 && adLength <= 20) {
-      System.out.println("Approved");
+      channel.getResults().store(name + "__AD_REQUEST::APPROVED");
     } else {
-      System.out.println("Rejected");
+      channel.getResults().store(name + "__AD_REQUEST::REJECTED");
     }
   }
 
   @Override
   public String toString() {
-    return "Mildly Popular State";
+    return "MILDLY_POPULAR";
   }
 }

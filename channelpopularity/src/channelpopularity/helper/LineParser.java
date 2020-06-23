@@ -7,7 +7,7 @@ import java.io.IOException;
 public class LineParser {
 
   private final ContextI channel;
-  private FileProcessor fp;
+  private final FileProcessor fp;
 
   public LineParser(FileProcessor fp, ContextI channel) {
     this.fp = fp;
@@ -67,12 +67,6 @@ public class LineParser {
   }
 
   void processAdRequest(String[] tokens) {
-
     channel.processAdRequest(Integer.parseInt(tokens[3]));
-    //
-    //    for (String token : tokens) {
-    //      System.out.println(token);
-    //    }
-    //    System.out.println("\n");
   }
 }

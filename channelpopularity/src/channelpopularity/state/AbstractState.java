@@ -2,48 +2,59 @@ package channelpopularity.state;
 
 import channelpopularity.context.ChannelContext;
 import channelpopularity.helper.Video;
-import java.util.List;
+import java.text.DecimalFormat;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class AbstractState implements StateI {
 
   ChannelContext channel;
+  DecimalFormat format = new DecimalFormat("0.###");
 
   public AbstractState(ChannelContext channel) {
     this.channel = channel;
   }
 
-  public int findVideo(Video video) {
-    int index = 0;
-    for (Video v : channel.getVideos()) {
-      if (v.getVideoName().equals(video.getVideoName())) {
-        return index;
-      }
-      index++;
+  @Override
+  public void addVideo(Video newVideo) {
+    if (!findVideo(newVideo)) {
+      channel.getVideos().put(newVideo.getVideoName(), newVideo);
+      channel
+          .getResults()
+          .store(channel.getCurrentState() + "__VIDEO_ADDED::" + newVideo.getVideoName());
+      channel.setPopularityScore(calculateScore());
+      channel.setCurrentState(findNextState(channel.getPopularityScore()));
     }
-    return -1;
   }
 
-  public int calculateScore() {
-    int updatedScore = 0;
-    List<Video> videos = channel.getVideos();
+  public boolean findVideo(Video video) {
+    return (channel.getVideos().containsKey(video.getVideoName()));
+  }
+
+  public float calculateScore() {
+    float updatedScore = 0;
+    Map<String, Video> videos = channel.getVideos();
+    Set<String> keys = videos.keySet();
     if (videos.size() > 0) {
-      for (Video vid : videos) {
-        updatedScore += vid.getScore();
+      for (String key : keys) {
+        updatedScore += videos.get(key).getScore();
       }
-      return (updatedScore / videos.size());
+      updatedScore /= keys.size();
     }
-    return 0;
+    return updatedScore;
   }
 
-  void findNextState(int score) {
+  public StateName findNextState(float score) {
     if (score >= 0 && score <= 1000) {
-      channel.setCurrentState(StateName.UNPOPULAR);
+      return StateName.UNPOPULAR;
     } else if (score > 1000 && score <= 10000) {
-      channel.setCurrentState(StateName.MILDLY_POPULAR);
+      return StateName.MILDLY_POPULAR;
     } else if (score > 10000 && score <= 100000) {
-      channel.setCurrentState(StateName.HIGHLY_POPULAR);
+      return StateName.HIGHLY_POPULAR;
     } else if (score > 100000 && score < Integer.MAX_VALUE) {
-      channel.setCurrentState(StateName.ULTRA_POPULAR);
+      return StateName.ULTRA_POPULAR;
     }
+    System.out.println("throw UnknownState Exception");
+    return null;
   }
 }
