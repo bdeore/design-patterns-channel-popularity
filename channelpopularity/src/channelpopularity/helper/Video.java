@@ -15,10 +15,22 @@ public class Video {
     this.score = 0;
   }
 
-  public void updateMetrics(int views, int likes, int dislikes) {
-    this.views += views;
-    this.likes += likes;
-    this.dislikes += dislikes;
+  public void setViews(int views) {
+    this.views = views;
+  }
+
+  public void setLikes(int likes) {
+    this.likes = likes;
+  }
+
+  public void setDislikes(int dislikes) {
+    this.dislikes = dislikes;
+  }
+
+  public void updateMetrics(Video video) {
+    this.views += video.views;
+    this.likes += video.likes;
+    this.dislikes += video.dislikes;
     calculateScore();
   }
 
@@ -28,6 +40,10 @@ public class Video {
 
   public int getScore() {
     return score;
+  }
+
+  public void setScore(int score) {
+    this.score = score;
   }
 
   private void calculateScore() {

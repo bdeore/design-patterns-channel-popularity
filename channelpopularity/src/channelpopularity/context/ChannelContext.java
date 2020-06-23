@@ -42,22 +42,42 @@ public class ChannelContext implements ContextI {
     int index = findVideo(video);
     if (index != -1) {
       videos.remove(index);
+      this.popularityScore = calculateScore();
     } else {
       System.out.println("Video doesn't exist");
     }
   }
 
   @Override
-  public void addMetrics(String videoName) {}
+  public void addMetrics(Video videoMetrics) {
+    int index = findVideo(videoMetrics);
+    Video temp = videos.get(index);
+    temp.updateMetrics(videoMetrics);
+
+    this.popularityScore = calculateScore();
+
+    System.out.println("Score: " + temp.getScore());
+    System.out.println("Popularity Score: " + popularityScore);
+  }
 
   @Override
   public void processAdRequest() {}
 
-  // Called by the States based on their logic of what the machine state should change to.
   public void setCurrentState(StateName nextState) {
-    if (availableStates.containsKey(nextState)) { // for safety.
+    if (availableStates.containsKey(nextState)) {
       currentState = availableStates.get(nextState);
     }
+  }
+
+  public int calculateScore() {
+    int updatedScore = 0;
+    if (videos.size() > 0) {
+      for (Video vid : videos) {
+        updatedScore += vid.getScore();
+      }
+      return (updatedScore / videos.size());
+    }
+    return 0;
   }
 
   public int findVideo(Video video) {

@@ -24,6 +24,12 @@ public class MildlyPopularState extends AbstractState {
   public void processAdRequest() {}
 
   @Override
+  public int calculateScore() {
+
+    return 0;
+  }
+
+  @Override
   public String toString() {
     return "Mildly Popular State";
   }

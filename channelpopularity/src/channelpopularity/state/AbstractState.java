@@ -4,8 +4,16 @@ import channelpopularity.helper.Video;
 
 public abstract class AbstractState implements StateI {
 
-  @Override
-  public void addVideo(Video newVideo) {}
+  //  ContextI channelContext;
+  //
+  //  public AbstractState(ContextI channelContext) {
+  //    this.channelContext = channelContext;
+  //  }
+  //
+  //  @Override
+  //  public void addVideo(Video newVideo) {
+  //    channelContext.addVideo(newVideo);
+  //  }
 
   @Override
   public void removeVideo(Video video) {}
@@ -15,4 +23,9 @@ public abstract class AbstractState implements StateI {
 
   @Override
   public void processAdRequest() {}
+
+  @Override
+  public int calculateScore() {
+    return 0;
+  }
 }

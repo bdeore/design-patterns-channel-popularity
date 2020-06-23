@@ -14,7 +14,7 @@ public interface ContextI {
 
   void removeVideo(Video video);
 
-  void addMetrics(String videoName);
+  void addMetrics(Video videoMetrics);
 
   void processAdRequest();
 }

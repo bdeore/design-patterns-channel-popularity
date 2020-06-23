@@ -52,13 +52,19 @@ public class LineParser {
 
   void removeVideo(String[] tokens) {
     Video video = new Video(tokens[1]);
-    //  channel.removeVideo(video);
+    channel.removeVideo(video);
   }
 
   void processMetrics(String[] tokens) {
-    for (String token : tokens) {
-      System.out.println(token);
-    }
-    System.out.println("\n");
+    Video vid = new Video(tokens[1]);
+    vid.setViews(Integer.parseInt(tokens[3]));
+    vid.setLikes(Integer.parseInt(tokens[5]));
+    vid.setDislikes(Integer.parseInt(tokens[7]));
+    channel.addMetrics(vid);
+
+    //    for (String token : tokens) {
+    //      System.out.println(token);
+    //    }
+    //    System.out.println("\n");
   }
 }

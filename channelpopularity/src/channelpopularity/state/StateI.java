@@ -10,4 +10,6 @@ public interface StateI {
   void addMetrics(String videoName);
 
   void processAdRequest();
+
+  int calculateScore();
 }
