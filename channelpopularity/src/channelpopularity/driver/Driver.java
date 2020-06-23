@@ -33,6 +33,5 @@ public class Driver {
     LineParser lp = new LineParser(fp, channel);
 
     lp.processFile();
-    channel.printAll(stateNames);
   }
 }

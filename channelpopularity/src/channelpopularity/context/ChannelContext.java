@@ -39,29 +39,26 @@ public class ChannelContext implements ContextI {
 
   @Override
   public void removeVideo(Video video) {
-    int index = findVideo(video);
-    if (index != -1) {
-      videos.remove(index);
-      this.popularityScore = calculateScore();
-    } else {
-      System.out.println("Video doesn't exist");
-    }
+    currentState.removeVideo(video);
   }
 
   @Override
   public void addMetrics(Video videoMetrics) {
-    int index = findVideo(videoMetrics);
-    Video temp = videos.get(index);
-    temp.updateMetrics(videoMetrics);
-
-    this.popularityScore = calculateScore();
-
-    System.out.println("Score: " + temp.getScore());
-    System.out.println("Popularity Score: " + popularityScore);
+    currentState.addMetrics(videoMetrics);
   }
 
   @Override
-  public void processAdRequest() {}
+  public void processAdRequest(int length) {
+    currentState.processAdRequest(length);
+  }
+
+  public Map<StateName, StateI> getAvailableStates() {
+    return availableStates;
+  }
+
+  public StateI getCurrentState() {
+    return currentState;
+  }
 
   public void setCurrentState(StateName nextState) {
     if (availableStates.containsKey(nextState)) {
@@ -69,15 +66,20 @@ public class ChannelContext implements ContextI {
     }
   }
 
-  public int calculateScore() {
-    int updatedScore = 0;
-    if (videos.size() > 0) {
-      for (Video vid : videos) {
-        updatedScore += vid.getScore();
-      }
-      return (updatedScore / videos.size());
-    }
-    return 0;
+  public void setCurrentState(StateI currentState) {
+    this.currentState = currentState;
+  }
+
+  public int getPopularityScore() {
+    return popularityScore;
+  }
+
+  public void setPopularityScore(int popularityScore) {
+    this.popularityScore = popularityScore;
+  }
+
+  public List<Video> getVideos() {
+    return videos;
   }
 
   public int findVideo(Video video) {
@@ -89,19 +91,5 @@ public class ChannelContext implements ContextI {
       index++;
     }
     return -1;
-  }
-
-  // Utility method for testing
-  public void printAll(List<StateName> stateNames) {
-    for (Video vid : videos) {
-      System.out.println(vid.getVideoName());
-    }
-
-    for (StateName state : stateNames) {
-      if (availableStates.containsKey(state)) {
-        currentState = availableStates.get(state);
-        System.out.println(currentState.toString());
-      }
-    }
   }
 }

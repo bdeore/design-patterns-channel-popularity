@@ -6,8 +6,8 @@ import java.io.IOException;
 
 public class LineParser {
 
+  private final ContextI channel;
   private FileProcessor fp;
-  private ContextI channel;
 
   public LineParser(FileProcessor fp, ContextI channel) {
     this.fp = fp;
@@ -33,6 +33,9 @@ public class LineParser {
           case "METRICS":
             processMetrics(tokens);
             break;
+
+          case "AD_REQUEST":
+            processAdRequest(tokens);
         }
 
         line = fp.poll();
@@ -61,7 +64,12 @@ public class LineParser {
     vid.setLikes(Integer.parseInt(tokens[5]));
     vid.setDislikes(Integer.parseInt(tokens[7]));
     channel.addMetrics(vid);
+  }
 
+  void processAdRequest(String[] tokens) {
+
+    channel.processAdRequest(Integer.parseInt(tokens[3]));
+    //
     //    for (String token : tokens) {
     //      System.out.println(token);
     //    }

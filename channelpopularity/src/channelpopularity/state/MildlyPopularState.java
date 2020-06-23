@@ -1,32 +1,46 @@
 package channelpopularity.state;
 
+import channelpopularity.context.ChannelContext;
 import channelpopularity.context.ContextI;
 import channelpopularity.helper.Video;
 
 public class MildlyPopularState extends AbstractState {
 
-  ContextI channelContext;
-
   public MildlyPopularState(ContextI channelContext) {
-    this.channelContext = channelContext;
+    super((ChannelContext) channelContext);
   }
 
   @Override
-  public void addVideo(Video newVideo) {}
+  public void removeVideo(Video video) {
+    int index = findVideo(video);
+    if (index != -1) {
+      channel.getVideos().remove(index);
+      channel.setPopularityScore(calculateScore());
+    } else {
+      System.out.println("Video doesn't exist");
+    }
+  }
 
   @Override
-  public void removeVideo(Video video) {}
+  public void addMetrics(Video videoMetrics) {
+    int index = findVideo(videoMetrics);
+    Video temp = channel.getVideos().get(index);
+    temp.updateMetrics(videoMetrics);
+
+    channel.setPopularityScore(calculateScore());
+    findNextState(channel.getPopularityScore());
+
+    System.out.println("Score: " + temp.getScore());
+    System.out.println("Popularity Score: " + channel.getPopularityScore());
+  }
 
   @Override
-  public void addMetrics(String videoName) {}
-
-  @Override
-  public void processAdRequest() {}
-
-  @Override
-  public int calculateScore() {
-
-    return 0;
+  public void processAdRequest(int adLength) {
+    if (adLength > 1 && adLength <= 20) {
+      System.out.println("Approved");
+    } else {
+      System.out.println("Rejected");
+    }
   }
 
   @Override

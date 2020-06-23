@@ -2,11 +2,8 @@ package channelpopularity.context;
 
 import channelpopularity.helper.Video;
 import channelpopularity.state.StateName;
-import java.util.List;
 
 public interface ContextI {
-
-  void printAll(List<StateName> stateNames);
 
   void setCurrentState(StateName state);
 
@@ -16,5 +13,5 @@ public interface ContextI {
 
   void addMetrics(Video videoMetrics);
 
-  void processAdRequest();
+  void processAdRequest(int length);
 }
