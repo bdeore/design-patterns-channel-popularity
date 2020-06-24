@@ -1,5 +1,7 @@
 package channelpopularity.helper;
 
+import channelpopularity._exceptions.InvalidMetricException;
+
 public class Video {
   private final String videoName;
   private int views;
@@ -28,17 +30,22 @@ public class Video {
   }
 
   public void updateMetrics(Video video) {
+    try {
+      if (this.views + video.views >= 0) this.views += video.views;
+      else throw new InvalidMetricException("Views: " + video.views);
 
-    if (this.views + video.views >= 0) this.views += video.views;
-    else System.out.println("InvalidValue Exception");
+      if (this.likes + video.likes >= 0) this.likes += video.likes;
+      else throw new InvalidMetricException("Likes: " + video.likes);
 
-    if (this.likes + video.likes >= 0) this.likes += video.likes;
-    else System.out.println("InvalidValue Exception");
+      if (this.dislikes + video.dislikes >= 0) this.dislikes += video.dislikes;
+      else throw new InvalidMetricException("Dislikes: " + video.dislikes);
 
-    if (this.dislikes + video.dislikes >= 0) this.dislikes += video.dislikes;
-    else System.out.println("InvalidValue Exception");
-
-    calculateScore();
+      calculateScore();
+    } catch (InvalidMetricException e) {
+      System.out.println(e);
+      System.out.println("(processFile method) Terminating Program");
+      System.exit(1);
+    }
   }
 
   public String getVideoName() {

@@ -1,5 +1,6 @@
 package channelpopularity.util;
 
+import channelpopularity._exceptions.EmptyInputFileException;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,7 +31,7 @@ public class Results implements FileDisplayInterface, StdoutDisplayInterface {
    * @throws InvalidPathException on invalid file path
    */
   @Override
-  public void write() throws ArithmeticException, InvalidPathException {
+  public void write() throws ArithmeticException, InvalidPathException, EmptyInputFileException {
     try {
       System.out.println("\nOutput: ");
       System.out.println("-----------------------------------");
@@ -58,21 +59,18 @@ public class Results implements FileDisplayInterface, StdoutDisplayInterface {
    */
   @Override
   public void write(String output_filename)
-      throws ArithmeticException, InvalidPathException, IOException, FileNotFoundException {
+      throws ArithmeticException, InvalidPathException, IOException, FileNotFoundException,
+          EmptyInputFileException {
+    if (resultBuffer.size() == 0) throw new EmptyInputFileException();
+
     FileWriter output_file = null;
-    FileWriter metrics_file = null;
-
     try {
-
       output_file = new FileWriter("output.txt");
-
       for (String line : resultBuffer) {
         output_file.write(line + "\n");
       }
-
     } finally {
       if (output_file != null) output_file.close();
-      if (metrics_file != null) metrics_file.close();
     }
   }
 

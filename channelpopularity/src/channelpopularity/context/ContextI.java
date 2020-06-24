@@ -1,14 +1,16 @@
 package channelpopularity.context;
 
+import channelpopularity._exceptions.EmptyInputFileException;
+import channelpopularity._exceptions.InvalidOperationException;
 import channelpopularity.helper.Video;
 import channelpopularity.state.StateName;
 import java.io.IOException;
 
 public interface ContextI {
 
-  void addVideo(Video newVideo);
+  void addVideo(Video newVideo) throws InvalidOperationException;
 
-  void removeVideo(Video video);
+  void removeVideo(Video video) throws InvalidOperationException;
 
   void addMetrics(Video videoMetrics);
 
@@ -16,7 +18,7 @@ public interface ContextI {
 
   void setCurrentState(StateName state);
 
-  void write();
+  void write() throws EmptyInputFileException;
 
-  void write(String fileName) throws IOException;
+  void write(String fileName) throws IOException, EmptyInputFileException;
 }

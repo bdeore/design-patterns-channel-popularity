@@ -1,5 +1,7 @@
 package channelpopularity.context;
 
+import channelpopularity._exceptions.EmptyInputFileException;
+import channelpopularity._exceptions.InvalidOperationException;
 import channelpopularity.helper.Video;
 import channelpopularity.state.StateI;
 import channelpopularity.state.StateName;
@@ -34,12 +36,12 @@ public class ChannelContext implements ContextI {
   }
 
   @Override
-  public void addVideo(Video newVideo) {
+  public void addVideo(Video newVideo) throws InvalidOperationException {
     currentState.addVideo(newVideo);
   }
 
   @Override
-  public void removeVideo(Video video) {
+  public void removeVideo(Video video) throws InvalidOperationException {
     currentState.removeVideo(video);
   }
 
@@ -84,12 +86,12 @@ public class ChannelContext implements ContextI {
   }
 
   @Override
-  public void write() {
+  public void write() throws EmptyInputFileException {
     results.write();
   }
 
   @Override
-  public void write(String fileName) throws IOException {
+  public void write(String fileName) throws IOException, EmptyInputFileException {
     results.write(fileName);
   }
 }

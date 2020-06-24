@@ -1,5 +1,6 @@
 package channelpopularity.state;
 
+import channelpopularity._exceptions.InvalidOperationException;
 import channelpopularity.context.ChannelContext;
 import channelpopularity.context.ContextI;
 import channelpopularity.helper.Video;
@@ -13,14 +14,15 @@ public class MildlyPopularState extends AbstractState {
   }
 
   @Override
-  public void removeVideo(Video video) {
+  public void removeVideo(Video video) throws InvalidOperationException {
     if (findVideo(video)) {
       channel.getVideos().remove(video.getVideoName());
       channel.getResults().store(name + "__VIDEO_REMOVED::" + video.getVideoName());
       channel.setPopularityScore(calculateScore());
       channel.setCurrentState(findNextState(channel.getPopularityScore()));
     } else {
-      System.out.println("Video doesn't exist");
+      throw new InvalidOperationException(
+          "(REMOVE_VIDEO) " + video.getVideoName() + " Does Not Exist");
     }
   }
 

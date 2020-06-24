@@ -1,11 +1,9 @@
 package channelpopularity.util;
 
+import channelpopularity._exceptions.EmptyInputFileException;
 import java.nio.file.InvalidPathException;
-import java.util.Vector;
 
 /** interface for standard out IO */
 public interface StdoutDisplayInterface {
-  Vector<String> resultBuffer = null;
-
-  void write() throws ArithmeticException, InvalidPathException;
+  void write() throws ArithmeticException, InvalidPathException, EmptyInputFileException;
 }

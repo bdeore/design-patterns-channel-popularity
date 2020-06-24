@@ -1,10 +1,14 @@
 package channelpopularity.driver;
 
+import channelpopularity._exceptions.EmptyInputFileException;
 import channelpopularity.context.ChannelContext;
 import channelpopularity.context.ContextI;
 import channelpopularity.helper.LineParser;
 import channelpopularity.state.StateName;
 import channelpopularity.util.FileProcessor;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.InvalidPathException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,15 +30,34 @@ public class Driver {
       System.exit(0);
     }
 
-    List<StateName> stateNames = Arrays.asList(StateName.values());
-    ContextI channel = new ChannelContext(stateNames);
+    try {
+      List<StateName> stateNames = Arrays.asList(StateName.values());
+      ContextI channel = new ChannelContext(stateNames);
 
-    FileProcessor fp = new FileProcessor(args[0]);
-    LineParser lp = new LineParser(fp, channel);
+      FileProcessor fp = new FileProcessor(args[0]);
+      LineParser lp = new LineParser(fp, channel);
 
-    lp.processFile();
+      lp.processFile();
 
-    channel.write();
-    channel.write(args[1]);
+      channel.write();
+      channel.write(args[1]);
+
+    } catch (InvalidPathException
+        | FileNotFoundException
+        | SecurityException
+        | ArithmeticException
+        | EmptyInputFileException e) {
+      System.out.println(e);
+      System.out.println("(Class Driver) Terminating Program");
+      System.exit(1);
+      // e.printStackTrace();
+    } catch (IOException e) {
+      System.out.println("IOException occurred in FileProcessor class\n" + e);
+      System.exit(1);
+      // e.printStackTrace();
+    }
+    // TODO
+    // Handle Exception
+    // Handle all the edge cases
   }
 }
