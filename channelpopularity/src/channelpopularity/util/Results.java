@@ -8,11 +8,11 @@ import java.nio.file.InvalidPathException;
 import java.util.Vector;
 
 /**
- * Results Class: maintains a result buffer(vector of string objects) which is updated by
- * WordRotator class through store() method. implements two overrides of write() method declared in
+ * Results Class: maintains a result buffer(vector of string objects) which is updated by State
+ * classes through store() method. implements two overrides of write() method declared in
  * interfaces. when write() method without parameters is called, output is printed out on console.
- * when write(output_filename, metrics_filename) is called, appropriate files are created and
- * written to. write() method exceptions are handled by calling code in Driver class.
+ * when write(output_filename) is called, appropriate file is created and written to. write() method
+ * exceptions are handled by calling code.
  */
 public class Results implements FileDisplayInterface, StdoutDisplayInterface {
 

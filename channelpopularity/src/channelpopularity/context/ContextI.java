@@ -6,6 +6,7 @@ import channelpopularity.helper.Video;
 import channelpopularity.state.StateName;
 import java.io.IOException;
 
+/** Interface for context class used in state pattern */
 public interface ContextI {
 
   void addVideo(Video newVideo) throws InvalidOperationException;

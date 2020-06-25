@@ -27,13 +27,16 @@ The above command compiles your code and generates .class files inside the BUILD
 ## Instructions to run:
 
 ```commandline
-ant -buildfile channelpopularity/src/build.xml run -Dinput="input.txt" -Doutput="output.txt" -Dmetrics="metrics.txt"
+ant -buildfile channelpopularity/src/build.xml run -Dinput="input.txt" -Doutput="output.txt"
 ```
 Note: Arguments accept the absolute path of the files.
 
 
 ## Description:
 
+precision 3 digits after decimal.
+HashMap is used to store videos in context class. 
+commands to compile and run the program are the same.
 
 ## Academic Honesty statement:
 

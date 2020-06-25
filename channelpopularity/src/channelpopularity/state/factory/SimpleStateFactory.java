@@ -8,6 +8,11 @@ import channelpopularity.state.StateName;
 import channelpopularity.state.UltraPopularState;
 import channelpopularity.state.UnpopularState;
 
+/**
+ * Simple factory method to create new states
+ *
+ * <p>DESIGN PRINCIPLE: encapsulate what varies
+ */
 public class SimpleStateFactory implements SimpleStateFactoryI {
 
   ContextI channelContext;
@@ -16,6 +21,14 @@ public class SimpleStateFactory implements SimpleStateFactoryI {
     this.channelContext = channelContext;
   }
 
+  /**
+   * create method uses enum of permissible states and returns a requested state
+   *
+   * <p>DESIGN PRINCIPLE: program to the interface not implementation
+   *
+   * @param state requested state object
+   * @return State object
+   */
   @Override
   public StateI create(StateName state) {
 
@@ -34,5 +47,15 @@ public class SimpleStateFactory implements SimpleStateFactoryI {
     }
 
     return null;
+  }
+
+  /**
+   * toString method
+   *
+   * @return String containing debugging info
+   */
+  @Override
+  public String toString() {
+    return "SimpleStateFactory: " + "channelContext=" + channelContext;
   }
 }

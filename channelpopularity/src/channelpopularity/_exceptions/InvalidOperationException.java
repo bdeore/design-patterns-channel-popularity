@@ -1,5 +1,6 @@
 package channelpopularity._exceptions;
 
+/** user-defined exception class - this exception is thrown if requested operation is invalid */
 public class InvalidOperationException extends Exception {
 
   public InvalidOperationException() {

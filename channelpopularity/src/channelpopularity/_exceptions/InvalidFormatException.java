@@ -1,5 +1,6 @@
 package channelpopularity._exceptions;
 
+/** user-defined exception class - this exception is thrown if input file format is invalid */
 public class InvalidFormatException extends Exception {
 
   public InvalidFormatException() {

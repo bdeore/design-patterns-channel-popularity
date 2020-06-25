@@ -39,6 +39,16 @@ public class Driver {
 
       lp.processFile();
 
+      /*
+       * Results object provides uniform interface through write() method for writing output to
+       * files as well as standard out. creation of results object is managed by channel to ensure
+       * that each channel has its own separate instance of the object.
+       *
+       *  write() method without any parameters prints output and metrics to the console
+       *  write(output_file_name) writes output and metrics to specified
+       *  files.
+       *
+       */
       channel.write();
       channel.write(args[1]);
 
@@ -56,8 +66,15 @@ public class Driver {
       System.exit(1);
       // e.printStackTrace();
     }
-    // TODO
-    // Handle Exception
-    // Handle all the edge cases
+  }
+
+  /**
+   * toString() method - helpful for debugging
+   *
+   * @return name of the class
+   */
+  @Override
+  public String toString() {
+    return "Driver Object";
   }
 }

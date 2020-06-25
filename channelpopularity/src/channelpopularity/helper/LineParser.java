@@ -10,6 +10,10 @@ import channelpopularity.context.ContextI;
 import channelpopularity.util.FileProcessor;
 import java.io.IOException;
 
+/**
+ * Helper class to process input file and perform input validations before passing on the control
+ * channel context class. uses the instance of file processor and channel class.
+ */
 public class LineParser {
 
   private final ChannelContext channel;
@@ -20,6 +24,11 @@ public class LineParser {
     this.channel = (ChannelContext) channel;
   }
 
+  /**
+   * processFile method uses file processor object to read in the line. validates format of the line
+   * using validateLineFormat() method. switch control statement is used to pass on the control to
+   * separate handlers for each operation rather than creating one giant monolithic function.
+   */
   public void processFile() {
     int count = 0;
     try {
@@ -69,34 +78,66 @@ public class LineParser {
     }
   }
 
+  /**
+   * creates a new video object and passes it on to the context class to add to the channel
+   *
+   * @param tokens array of tokens in line
+   * @throws InvalidOperationException user defined exception for invalid operation
+   */
   void processNewVideo(String[] tokens) throws InvalidOperationException {
     Video newVideo = new Video(tokens[1]);
     channel.addVideo(newVideo);
   }
 
+  /**
+   * creates a new video object and passes it on to the context class to remove
+   *
+   * @param tokens array of tokens in line
+   * @throws InvalidOperationException user defined exception for invalid operation
+   */
   void removeVideo(String[] tokens) throws InvalidOperationException {
     Video video = new Video(tokens[1]);
     channel.removeVideo(video);
   }
 
-  void processMetrics(String[] tokens) throws NumberFormatException, InvalidMetricException {
-    int views = Integer.parseInt(tokens[3]);
-    int likes = Integer.parseInt(tokens[5]);
-    int dislikes = Integer.parseInt(tokens[7]);
+  /**
+   * validates metrics information is correct and passes it on to be added to channel
+   *
+   * @param tokens array of tokens in line
+   * @throws NumberFormatException exception thrown by Integer.parseInt
+   * @throws InvalidMetricException user defined exception for invalid metrics information
+   * @throws InvalidOperationException user defined exception for invalid operation
+   */
+  void processMetrics(String[] tokens)
+      throws NumberFormatException, InvalidMetricException, InvalidOperationException {
+    if (channel.getVideos().containsKey(tokens[1])) {
+      int views = Integer.parseInt(tokens[3]);
+      int likes = Integer.parseInt(tokens[5]);
+      int dislikes = Integer.parseInt(tokens[7]);
 
-    if (views >= 0) {
-      Video vid = new Video(tokens[1]);
-      vid.setViews(views);
-      vid.setLikes(likes);
-      vid.setDislikes(dislikes);
-      channel.addMetrics(vid);
+      if (views >= 0) {
+        Video vid = new Video(tokens[1]);
+        vid.setViews(views);
+        vid.setLikes(likes);
+        vid.setDislikes(dislikes);
+        channel.addMetrics(vid);
+      } else {
+        throw new InvalidMetricException(tokens[3]);
+      }
     } else {
-      throw new InvalidMetricException(tokens[3]);
+      throw new InvalidOperationException(
+          "(Operation METRICS) Video " + tokens[1] + " Does Not Exist");
     }
   }
 
+  /**
+   * validates ad length and passes on control to Context class
+   *
+   * @param tokens array of tokens in line
+   * @throws InvalidMetricException user defined exception for invalid metrics information
+   * @throws InvalidOperationException user defined exception for invalid operation
+   */
   void processAdRequest(String[] tokens) throws InvalidMetricException, InvalidOperationException {
-
     if (channel.getVideos().containsKey(tokens[1])) {
       int length = Integer.parseInt(tokens[3]);
       if (length > 0) channel.processAdRequest(length);
@@ -106,6 +147,13 @@ public class LineParser {
     }
   }
 
+  /**
+   * utility function to validate format of the line
+   *
+   * @param tokens array of tokens in line
+   * @param count line number counter. gets passed on to exception(for debugging)
+   * @throws InvalidFormatException user defined exception thrown if invalid line is found
+   */
   void validateLineFormat(String[] tokens, int count) throws InvalidFormatException {
     if (tokens[0].equals("ADD_VIDEO") && tokens.length != 2) {
       throw new InvalidFormatException("Line Number: " + count);
@@ -129,5 +177,15 @@ public class LineParser {
         throw new InvalidFormatException("Line Number: " + count);
       }
     }
+  }
+
+  /**
+   * toString method
+   *
+   * @return String containing debugging info
+   */
+  @Override
+  public String toString() {
+    return "LineParser: " + "channel=" + channel + ", fp=" + fp;
   }
 }

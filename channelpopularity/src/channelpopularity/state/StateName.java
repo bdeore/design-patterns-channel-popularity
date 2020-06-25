@@ -1,5 +1,6 @@
 package channelpopularity.state;
 
+/** Enum indicating possible states */
 public enum StateName {
   UNPOPULAR,
   MILDLY_POPULAR,
