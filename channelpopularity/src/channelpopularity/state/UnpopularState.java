@@ -63,13 +63,8 @@ public class UnpopularState extends AbstractState {
     }
   }
 
-  /**
-   * toString method
-   *
-   * @return String containing debugging info
-   */
   @Override
   public String toString() {
-    return "UnpopularState " + "name=" + name;
+    return "UNPOPULAR";
   }
 }

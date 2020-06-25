@@ -63,13 +63,8 @@ public class UltraPopularState extends AbstractState {
     }
   }
 
-  /**
-   * toString method
-   *
-   * @return String containing debugging info
-   */
   @Override
   public String toString() {
-    return "UltraPopularState " + "name=" + name;
+    return "ULTRA_POPULAR";
   }
 }

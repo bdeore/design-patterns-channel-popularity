@@ -63,13 +63,8 @@ public class MildlyPopularState extends AbstractState {
     }
   }
 
-  /**
-   * toString method
-   *
-   * @return String containing debugging info
-   */
   @Override
   public String toString() {
-    return "MildlyPopularState " + "name=" + name;
+    return "MILDLY_POPULAR";
   }
 }

@@ -63,13 +63,8 @@ public class HighlyPopularState extends AbstractState {
     }
   }
 
-  /**
-   * toString method
-   *
-   * @return String containing debugging info
-   */
   @Override
   public String toString() {
-    return "HighlyPopularState " + "name=" + name;
+    return "HIGHLY_POPULAR";
   }
 }
