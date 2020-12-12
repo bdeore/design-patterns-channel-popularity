@@ -1,6 +1,5 @@
 ## Channel Popularity using State Pattern
 
------------------------------------------------------------------------
 
 Following are the commands & instructions to run the project using ANT.
 
